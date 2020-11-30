@@ -17,8 +17,8 @@ Projeto final de IoT - Varal Automático
 Atividade avaliativa da disciplina de IoT
 Varal Automático - Imagem
   <br><br>
-<img src= https://user-images.githubusercontent.com/69262009/100675443-b9ecdc80-3345-11eb-9e34-a6cbc5836d77.jpeg width="350" height="180" align=center hspace=100><br>
-Por: Ana Carolina Machado.
+<img src= https://user-images.githubusercontent.com/69262009/100675443-b9ecdc80-3345-11eb-9e34-a6cbc5836d77.jpeg width="370" height="220" align=center hspace=100><br>
+Por: Ana Carolina Machado e Lucas Borba.
 </font>
 </BODY>
 </p>
