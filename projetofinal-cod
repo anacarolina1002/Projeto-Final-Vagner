@@ -1,0 +1,137 @@
+#include <LiquidCrystal.h>
+
+LiquidCrystal LCD(12,11,5,4,3,2);
+int conta2=0;
+int conta3=0;
+int conta4=0;
+int conta5=0;
+int conta = 0;
+int TempPino=0;
+int AlertaB=8;
+int AlertaA=13;
+int TempBaixa=0;
+int TempAlta=40;
+int luminosidade=A5;
+int motorcima = 6;
+int motorbaixo = A4;
+float tempo = 2;
+void setup() {
+  Serial.begin(9600);
+  	pinMode(AlertaB, OUTPUT);
+	pinMode(AlertaA, OUTPUT);
+    pinMode(luminosidade, INPUT);
+    pinMode(motorcima,OUTPUT);
+    pinMode(motorbaixo,OUTPUT);
+	LCD.begin(16,2);	
+}
+void loop() {
+	int SensorTensao=analogRead(TempPino);
+
+	float Tensao=SensorTensao*5;
+	Tensao/=1024;
+	float Temperatura=(Tensao-0.5)*100;
+  
+  	LCD.setCursor(0,1);
+	LCD.print(Temperatura);
+	LCD.setCursor(9,1);  	  
+  	if (Temperatura>=TempAlta) {
+  		digitalWrite( AlertaB, LOW);
+  		digitalWrite(AlertaA, HIGH);
+    }
+  	else if (Temperatura<= AlertaB){
+  		digitalWrite( AlertaB, HIGH);
+  		digitalWrite(AlertaA, LOW);
+  	}
+  	else {
+  		digitalWrite( AlertaB, LOW);
+  		digitalWrite(AlertaA, LOW);
+    }
+  int luz = analogRead(luminosidade);
+  digitalWrite(motorcima,LOW);
+  digitalWrite(motorbaixo,LOW);
+  Serial.println(Temperatura);
+  Serial.println(luz);
+   if(Temperatura<20 && luz<200){
+       conta++;
+     Serial.println("Recolhendo roupa..."); 
+     LCD.begin(16,2);
+	 LCD.print("Recolhendo");
+	 LCD.setCursor(0,1);
+     LCD.print("roupa...");
+       if(conta==1){
+         digitalWrite(motorbaixo,HIGH);
+         conta2=0;
+        
+       }
+   }
+     if(Temperatura<20 && luz>200){  
+    conta2++;
+    LCD.begin(16,2);
+	LCD.print("Temperatura:");
+	LCD.setCursor(0,1);
+	LCD.print("     C     ");
+    Serial.println("Luminosidade boa");
+    LCD.setCursor(0,1);
+	LCD.print(Temperatura);
+	LCD.setCursor(9,1); 
+         if(conta2==1){
+         digitalWrite(motorcima,HIGH);
+           conta=0;
+           conta3=0;
+       }     
+  }
+  if(luz>200 && Temperatura>20 ){
+  conta3++;
+    LCD.begin(16,2);
+	LCD.print("Temperatura:");
+	LCD.setCursor(0,1);
+	LCD.print("     C     ");
+    Serial.println("Luminosidade boa");
+    LCD.setCursor(0,1);
+	LCD.print(Temperatura);
+	LCD.setCursor(9,1);   
+    if(conta3==1){
+      digitalWrite(motorcima,HIGH);
+      conta=0;
+      conta2=0;
+      conta4=0;
+      conta5=0;
+    }
+    }
+    if(luz>200 && Temperatura<20){
+    conta4++;
+    LCD.begin(16,2);
+	LCD.print("Temperatura:");
+	LCD.setCursor(0,1);
+	LCD.print("     C     ");
+    Serial.println("Luminosidade boa");
+    LCD.setCursor(0,1);
+	LCD.print(Temperatura);
+	LCD.setCursor(9,1);   
+    
+      if(conta4==1){
+      digitalWrite(motorcima,HIGH);
+      conta=0;
+      conta2=0;
+      conta3=0;
+      conta5=0;
+     }
+    }
+    if(luz<200 && Temperatura>20){
+      conta5++;
+     Serial.println("Recolhendo roupa..."); 
+     LCD.begin(16,2);
+	 LCD.print("Recolhendo");
+	 LCD.setCursor(0,1);
+     LCD.print("roupa...");
+      if(conta5==1){
+      digitalWrite(motorbaixo,HIGH);
+      conta=0;
+      conta2=0;
+      conta3=0;
+      conta4=0;
+     }
+     }
+   
+  	delay(10);
+}
